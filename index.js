@@ -5,15 +5,10 @@ dotenv.config();
 
 import User from './model/User.js';
 
-
 const app = express()
-
-
 
 async function main () {
     await mongoose.connect(process.env.DB_URL);
-
-    
     var db = mongoose.connection;
 
     db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -21,13 +16,9 @@ async function main () {
         console.log('Mongoose default connection open');
     }); 
 
-
     User.find({}, function(err, users) {
         console.log(users);
     });
-
-
-
 
     // A sample route
     app.get('/', (req, res) => {
@@ -35,7 +26,9 @@ async function main () {
         res.send('Hello World!')
     })
 
-
+    app.get("/api", (req, res) => {
+        res.json({ message: "API from server!" });
+    });
 
     // start the server listening for requests
     app.listen(process.env.PORT || 3000, 
